@@ -11,8 +11,8 @@ java_import javax::swing::filechooser::FileNameExtensionFilter
 #java_import java::io::File
 
 begin
-	verbose = 1
-	recurse = false
+	verbose = 1	# level of output to the console
+	recurse = false	# set true to search for Datavyu files in subdirectories of selected folder
 	# Prompt user for script file.
 	rbFilter = FileNameExtensionFilter.new('Ruby script','rb')
 	jfc = JFileChooser.new()
