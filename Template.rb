@@ -8,7 +8,7 @@ require 'Datavyu_API.rb'
 
 begin
 	# Parameters.
-	verbose = 1		# control how much to output to console
+	verbose = 1		# level of output to console (higher=more output)
 
 
 rescue StandardError => e
