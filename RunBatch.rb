@@ -57,7 +57,7 @@ begin
 	dv_dir = jfc.getSelectedFile().getAbsolutePath()
 	puts dv_dir if verbose > 1
 	dv_files = []
-	filter = (recurse?) File.join('**','*.opf') : '*.opf'
+	filter = (recurse)? File.join('**','*.opf') : '*.opf'
 	Dir.chdir(dv_dir){
 		|dir|
 		dv_files = Dir.glob(filter)
