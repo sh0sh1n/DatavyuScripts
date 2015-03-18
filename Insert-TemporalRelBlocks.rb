@@ -8,15 +8,17 @@
 # March 17, 2015
 require 'Datavyu_API.rb'
 ######################### PARAMS ##########################
-srcColumn = 'trial'			# Name of column to use for getting total duration
-destColumn = 'trial_rel'	# Name of new column to create
-relFraction = 0.25 			# Fraction of the source column to use as rel_column
+primaryColumn = 'trial'				# Name of column to use for getting total duration
+blockColumn = 'trial_rel_block'		# Name of new block column to create
+reliabilityColumn = 'trial_rel'		# Name of the new reliability column (no cells)
+relFraction = 0.25 					# Fraction of the source column to use as rel_column
 
 
 ######################### MAIN ROUTINE ####################
 begin
-	src = getVariable(srcColumn)
-	dest = createVariable(destColumn,src.arglist)
+	src = getVariable(primaryColumn)
+	dest = createVariable(blockColumn,'x')
+	rel = createVariable(reliabilityColumn,src.arglist)
 
 	srcOnset = src.cells.first.onset
 	srcOffset = src.cells.last.offset
@@ -27,6 +29,7 @@ begin
 	cell.offset = cell.onset+reltime
 
 	setVariable(dest)
+	setVariable(rel)
 
 rescue StandardError => e
 	puts e.message

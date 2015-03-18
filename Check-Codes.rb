@@ -14,7 +14,7 @@ myMap = {
 		'sex'		=>	['m','f']
 	},
 	'task' => {
-		'condition'	=>	['ax','by','c']
+		'condition'	=>	['x','y','z']
 	},
 	'trial' => {
 		'result_yn'	=>	['y','n']

@@ -8,9 +8,9 @@ require 'Datavyu_API.rb'
 # to a list of codes to add to that column.  All codes on the righthand side of each mapping should
 # be inside the brackets [] and separated by commas.
 myMap = {
-	'id' => ['idNumber','expDate','birthDate','sex'],
-	'task' => ['condition'],
-	'trial' => ['result_yn']
+	'id' => ['idNumber','expDate','birthDate','sex_mf'],
+	'task' => ['condition_xyz'],
+	'trial' => ['trialnum','result_yn']
 }
 
 # If replace is set to true, any existing columns with the same names will be replaced
@@ -28,6 +28,7 @@ begin
 	columnsAdded = 0
 	myMap.each_pair{
 		|colname,argnames|
+		col = nil
 		if not replace and varList.include?(colname)
 			puts "#{colname} already exists. Checking for codes to add." if verbose > 0
 			col = getVariable(colname)
