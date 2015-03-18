@@ -11,10 +11,10 @@ myMap = {
 	# Columns
 	'id' => {
 		# Code names 	# Acceptable values
-		'sex'		=>	['m','f']
+		'sex_mf'		=>	['m','f']
 	},
 	'task' => {
-		'condition'	=>	['x','y','z']
+		'condition_xyz'	=>	['x','y','z']
 	},
 	'trial' => {
 		'result_yn'	=>	['y','n']
@@ -72,7 +72,7 @@ begin
 				#if not arglist.include?(codename)
 				#	puts "WARNING: column #{colname} does not have an argument"
 				#end
-
+				
 				v = cell.get_arg(codename)
 				if v.nil? or not legalValues.include?(v)
 					puts "\tInvalid code for cell\##{cell.ordinal}, code #{codename} : #{v}" if verbose > 0
