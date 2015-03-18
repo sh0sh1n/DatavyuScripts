@@ -18,25 +18,35 @@ myMap = {
 # that are new.
 replace = false
 verbose = 1
+retries = 1 # times to retry routine...this is for issue with setting variable on empty spreadsheet
+
+
+##############  MAIN ROUTINE  ################
 begin
 	varList = getVariableList()
 
 	columnsAdded = 0
 	myMap.each_pair{
 		|colname,argnames|
-		puts "Adding column #{colname}" if verbose > 0
 		if not replace and varList.include?(colname)
+			puts "#{colname} already exists. Checking for codes to add." if verbose > 0
 			col = getVariable(colname)
 			newargs = argnames - col.arglist
 			newargs.each{ |narg| col.add_arg(narg) }
 		else
+			puts "Adding column #{colname}" if verbose > 0
 			columnsAdded+=1
 			col = createVariable(colname,argnames)
 		end
 		setVariable(colname,col)
 	}
-	puts "Finished.  Added #{columnsAdded} new column(s)."
+	# Added bandaid fix for the correct number of columns when the script fails.
+	puts "Finished.  Added #{(1-retries) + columnsAdded} new column(s)." if verbose > 0
 rescue StandardError => e
+	if retries > 0
+		retries-=1
+		retry
+	end
 	puts e.message
 	puts e.backtrace
 end
