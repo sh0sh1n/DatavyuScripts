@@ -21,7 +21,7 @@ verbose = 1
 retries = 1 # times to retry routine...this is for issue with setting variable on empty spreadsheet
 
 
-##############  PARAMS  ################
+##############  MAIN ROUTINE  ################
 begin
 	varList = getVariableList()
 
@@ -40,7 +40,8 @@ begin
 		end
 		setVariable(colname,col)
 	}
-	puts "Finished.  Added #{columnsAdded} new column(s)."
+	# Added bandaid fix for the correct number of columns when the script fails.
+	puts "Finished.  Added #{(1-retries) + columnsAdded} new column(s)." if verbose > 0
 rescue StandardError => e
 	if retries > 0
 		retries-=1

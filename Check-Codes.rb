@@ -11,23 +11,20 @@ myMap = {
 	# Columns
 	'id' => {
 		# Code names 	# Acceptable values
-		'idNumber'	=>	[],
-		'expDate'	=>	[],
-		'birthDate'	=>	[],
-		'sex'		=>	[]
-		},
+		'sex'		=>	['m','f']
+	},
 	'task' => {
-		'condition'	=>	[]
-	}
+		'condition'	=>	['ax','by','c']
+	},
 	'trial' => {
-		'result_yn'	=>	[]
+		'result_yn'	=>	['y','n']
 	}
 }
 
-verbose = 1
+verbose = 1	# zero will be useless until writing out to file is implemented
 
-########################################
-##############  PARAMS  ################
+##############################################
+##############  MAIN ROUTINE  ################
 begin
 	varList = getVariableList()	# Fetch list of columns from spreadsheet
 
@@ -37,36 +34,52 @@ begin
 		|colname,codemap|
 		if (not varList.include?(colname))
 			puts "#{colname} does not exist in spreadsheet. Skipping it." if verbose > 0
-			return true
-		elsif codemap.empty?)
+			true
+		elsif codemap.empty?
 			puts "#{colname} contains no codes. Skipping it." if verbose > 0
-			return true
+			true
 		else
-			return false
+			false
 		end
 	}
 
-	# Map the column names to RVarible objects.
-	cols = myMap.keys.map{ |x| getVariable(x) }
+	# Map column names to column objects from the database
+	cols = {}
+	myMap.keys.each{
+		|x|
+		cols[x] = getVariable(x)
+	}
 
-	return
-
-	
-	columnsAdded = 0
 	myMap.each_pair{
-		|colname,argnames|
-		puts "Adding column #{colname}" if verbose > 0
-		if not replace and varList.include?(colname)
-			col = getVariable(colname)
-			newargs = argnames - col.arglist
-			newargs.each{ |narg| col.add_arg(narg) }
-		else
-			columnsAdded+=1
-			col = createVariable(colname,argnames)
+		|colname,codemap|
+		col = cols[colname]
+
+		puts "Checking column: #{colname}" if verbose > 0
+
+		# Get the list of cell objects
+		cells = col.cells
+
+		# Get the list of existing codes (column arglist)
+		arglist = col.arglist
+
+		# For each cell, check the specified codes against the list of valid codes
+		for cell in cells
+			codemap.each_pair{
+				|codename,legalValues|
+				# Check the column's arglist against the codemap.
+				# Remove args which don't exist in the arglist from our codemap.
+				# NOT IMPLEMENTED. HANDLE USING NIL RETURN VALUES FROM GET_ARG.
+				#if not arglist.include?(codename)
+				#	puts "WARNING: column #{colname} does not have an argument"
+				#end
+
+				v = cell.get_arg(codename)
+				if v.nil? or not legalValues.include?(v)
+					puts "\tInvalid code for cell\##{cell.ordinal}, code #{codename} : #{v}" if verbose > 0
+				end
+			}
 		end
-		setVariable(colname,col)
 	}
-	puts "Finished.  Added #{columnsAdded} new column(s)."
 rescue StandardError => e
 	puts e.message
 	puts e.backtrace
