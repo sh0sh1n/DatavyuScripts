@@ -38,7 +38,7 @@ begin
 		end
 		setVariable(col)
 	}
-	# Added bandaid fix for the correct number of columns when the script fails.
+
 	puts "Finished.  Added  #{columnsAdded} new column(s)." if verbose > 0
 rescue StandardError => e
 	puts e.message
