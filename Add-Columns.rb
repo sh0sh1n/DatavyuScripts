@@ -8,9 +8,9 @@ require 'Datavyu_API.rb'
 # to a list of codes to add to that column.  All codes on the righthand side of each mapping should
 # be inside the brackets [] and separated by commas.
 myMap = {
-	'id' => ['idNumber','expDate','birthDate','sex_mf'],
+	'id' => ['id_number','exp_date','birth_date','sex_mf'],
 	'task' => ['condition_xyz'],
-	'trial' => ['trialnum','result_yn']
+	'trial' => ['trial_num','result_yn']
 }
 
 # If replace is set to true, any existing columns with the same names will be replaced
@@ -18,8 +18,6 @@ myMap = {
 # that are new.
 replace = false
 verbose = 1
-retries = 1 # times to retry routine...this is for issue with setting variable on empty spreadsheet
-
 
 ##############  MAIN ROUTINE  ################
 begin
@@ -28,7 +26,6 @@ begin
 	columnsAdded = 0
 	myMap.each_pair{
 		|colname,argnames|
-		col = nil
 		if not replace and varList.include?(colname)
 			puts "#{colname} already exists. Checking for codes to add." if verbose > 0
 			col = getVariable(colname)
@@ -37,17 +34,13 @@ begin
 		else
 			puts "Adding column #{colname}" if verbose > 0
 			columnsAdded+=1
-			col = createVariable(colname,argnames)
+			col = createVariable(colname,*argnames)
 		end
-		setVariable(colname,col)
+		setVariable(col)
 	}
 	# Added bandaid fix for the correct number of columns when the script fails.
-	puts "Finished.  Added #{(1-retries) + columnsAdded} new column(s)." if verbose > 0
+	puts "Finished.  Added  #{columnsAdded} new column(s)." if verbose > 0
 rescue StandardError => e
-	if retries > 0
-		retries-=1
-		retry
-	end
 	puts e.message
 	puts e.backtrace
 end
