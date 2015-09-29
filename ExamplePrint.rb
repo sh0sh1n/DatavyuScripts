@@ -1,16 +1,10 @@
 # Example print script.  Assumes columns are organized in a hierarchical fashion 
 # and listed in order of decreasing inclusivity.
 
-# Shohan Hasan
-# NYU Infant Action Lab
 # March 18, 2015
 require 'Datavyu_API.rb'
 ########################################
 ##############  PARAMS  ################
-# Column-arg mappings. This is an associative array that pairs the name of the column
-# to a list of codes to add to that column.  All codes on the righthand side of each mapping should
-# be inside the brackets [] and separated by commas.
-
 verbose = 1
 
 begin
