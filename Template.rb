@@ -4,8 +4,6 @@
 # Affiliation and/or e-mail
 # Date
 
-require 'Datavyu_API.rb'
-
 #####################################################
 ##################### PARAMETERS ####################
 #####################################################
@@ -18,13 +16,13 @@ verbose = 1
 #####################################################
 ##################### Main routine ##################
 #####################################################
+require 'Datavyu_API.rb'
 begin
 	puts "Starting script..." if verbose > 0	# Print a simple start message (if verbose greater than 0)
 
 
 
-# You can ignore this block.  If find that this does a better
-# job of tracking down the line in the script that caused a crash.
+# You can ignore this block.
 rescue StandardError => e
 	puts e.message
 	puts e.backtrace
