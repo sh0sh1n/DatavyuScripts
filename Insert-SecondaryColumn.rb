@@ -1,8 +1,5 @@
 # Insert cells into a secondary column using selection criteria applied to cells of a primary column.
 
-# Shohan Hasan
-# NYU Infant Action Lab
-# March 23, 2015
 require 'Datavyu_API.rb'
 ######################### PARAMS ##########################
 primaryColumn = 'primary'			# Name of primary column
