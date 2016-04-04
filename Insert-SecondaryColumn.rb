@@ -31,7 +31,7 @@ begin
 	else
 		puts "Fetching column #{secondaryColumn}" if verbose > 0
 		colSec = getVariable(secondaryColumn)
-		raise "ColumnNotFound: #{secondaryColumn}" if colSec.nil?
+		raise "Column already exists: #{secondaryColumn}" unless colSec.nil?
 	end
 
 	# Select cells based on selectCriteria
